@@ -23,6 +23,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TableLayout
+        android:id="@+id/tableLayout"
         android:layout_width="381dp"
         android:layout_height="609dp"
         android:background="@color/secondaryColor"
@@ -34,154 +35,181 @@
         app:layout_constraintVertical_bias="0.868">
 
         <!-- Table Head -->
-        <TableRow
-            android:background="@color/primaryColor">
+        <TableRow android:background="@color/primaryColor">
 
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Nombre cuenta"
-                android:textColor="@color/letrasNegrasPrimarias"
-                android:padding="10sp"
-                android:textSize="16sp"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="4"
                 android:gravity="center_horizontal"
-                android:layout_gravity="center_vertical"/>
+                android:padding="10sp"
+                android:text="Nombre cuenta"
+                android:textColor="@color/letrasNegrasPrimarias"
+                android:textSize="16sp" />
+
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Dinero cuenta"
-                android:textColor="@color/letrasNegrasPrimarias"
-                android:padding="10sp"
-                android:textSize="16sp"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="4"
                 android:gravity="center_horizontal"
-                android:layout_gravity="center_vertical"/>
+                android:padding="10sp"
+                android:text="Dinero cuenta"
+                android:textColor="@color/letrasNegrasPrimarias"
+                android:textSize="16sp" />
+
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Ultima transaccion"
-                android:textColor="@color/letrasNegrasPrimarias"
-                android:padding="10sp"
-                android:textSize="16sp"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="4"
                 android:gravity="center_horizontal"
-                android:layout_gravity="center_vertical"/>
+                android:padding="10sp"
+                android:text="Ultima transaccion"
+                android:textColor="@color/letrasNegrasPrimarias"
+                android:textSize="16sp" />
         </TableRow>
         <!-- Table data -->
-        <TableRow
-            android:background="@color/secondaryColor">
+        <TableRow android:background="@color/secondaryColor">
+
             <TextView
                 android:id="@+id/text_CuentaBancaria_Nombre_1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Prueba nombre 1"
-                android:textColor="@color/letrasNegrasSecundarias"
-                android:padding="10sp"
-                android:textSize="13sp"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="3"
                 android:gravity="center_horizontal"
-                android:layout_gravity="center_vertical"/>
+                android:padding="10sp"
+                android:text="Prueba nombre 1"
+                android:textColor="@color/letrasNegrasSecundarias"
+                android:textSize="13sp" />
+
             <TextView
                 android:id="@+id/text_CuentaBancaria_Dinero_1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="$Prueba dinero 1"
-                android:textColor="@color/letrasNegrasSecundarias"
-                android:padding="10sp"
-                android:textSize="13sp"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="3"
                 android:gravity="center_horizontal"
-                android:layout_gravity="center_vertical"/>
+                android:padding="10sp"
+                android:text="$Prueba dinero 1"
+                android:textColor="@color/letrasNegrasSecundarias"
+                android:textSize="13sp" />
+
             <TextView
                 android:id="@+id/text_CuentaBancaria_Ultima_1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Prueba/fecha/1"
-                android:textColor="@color/letrasNegrasSecundarias"
-                android:padding="10sp"
-                android:textSize="13sp"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="3"
                 android:gravity="center_horizontal"
-                android:layout_gravity="center_vertical"/>
+                android:padding="10sp"
+                android:text="Prueba/fecha/1"
+                android:textColor="@color/letrasNegrasSecundarias"
+                android:textSize="13sp" />
         </TableRow>
         <!--table data 2-->
-        <TableRow
-            android:background="@color/secondaryColor">
+        <TableRow android:background="@color/secondaryColor">
+
             <TextView
                 android:id="@+id/text_CuentaBancaria_Nombre_2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Prueba nombre 2"
-                android:textColor="@color/letrasNegrasSecundarias"
-                android:padding="10sp"
-                android:textSize="13sp"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="3"
                 android:gravity="center_horizontal"
-                android:layout_gravity="center_vertical"/>
+                android:padding="10sp"
+                android:text="Prueba nombre 2"
+                android:textColor="@color/letrasNegrasSecundarias"
+                android:textSize="13sp" />
+
             <TextView
                 android:id="@+id/text_CuentaBancaria_Dinero_2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="$Prueba dinero 2"
-                android:textColor="@color/letrasNegrasSecundarias"
-                android:padding="10sp"
-                android:textSize="13sp"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="3"
                 android:gravity="center_horizontal"
-                android:layout_gravity="center_vertical"/>
+                android:padding="10sp"
+                android:text="$Prueba dinero 2"
+                android:textColor="@color/letrasNegrasSecundarias"
+                android:textSize="13sp" />
+
             <TextView
                 android:id="@+id/text_CuentaBancaria_Ultima_2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Prueba/fecha/2"
-                android:textColor="@color/letrasNegrasSecundarias"
-                android:padding="10sp"
-                android:textSize="13sp"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="3"
                 android:gravity="center_horizontal"
-                android:layout_gravity="center_vertical"/>
+                android:padding="10sp"
+                android:text="Prueba/fecha/2"
+                android:textColor="@color/letrasNegrasSecundarias"
+                android:textSize="13sp" />
         </TableRow>
         <!--table data 3-->
-        <TableRow
-            android:background="@color/secondaryColor">
+        <TableRow android:background="@color/secondaryColor">
+
             <TextView
                 android:id="@+id/text_CuentaBancaria_Nombre_3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Prueba nombre 3"
-                android:textColor="@color/letrasNegrasSecundarias"
-                android:padding="10sp"
-                android:textSize="13sp"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="3"
                 android:gravity="center_horizontal"
-                android:layout_gravity="center_vertical"/>
+                android:padding="10sp"
+                android:text="Prueba nombre 3"
+                android:textColor="@color/letrasNegrasSecundarias"
+                android:textSize="13sp" />
+
             <TextView
                 android:id="@+id/text_CuentaBancaria_Dinero_3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="$Prueba dinero 3"
-                android:textColor="@color/letrasNegrasSecundarias"
-                android:padding="10sp"
-                android:textSize="13sp"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="3"
                 android:gravity="center_horizontal"
-                android:layout_gravity="center_vertical"/>
+                android:padding="10sp"
+                android:text="$Prueba dinero 3"
+                android:textColor="@color/letrasNegrasSecundarias"
+                android:textSize="13sp" />
+
             <TextView
                 android:id="@+id/text_CuentaBancaria_Ultima_3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Prueba/fecha/3"
-                android:textColor="@color/letrasNegrasSecundarias"
-                android:padding="10sp"
-                android:textSize="13sp"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="3"
                 android:gravity="center_horizontal"
-                android:layout_gravity="center_vertical"/>
+                android:padding="10sp"
+                android:text="Prueba/fecha/3"
+                android:textColor="@color/letrasNegrasSecundarias"
+                android:textSize="13sp" />
         </TableRow>
     </TableLayout>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:text="Añadir"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/tableLayout"
+        app:layout_constraintStart_toStartOf="@+id/tableLayout" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="Eliminar"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/tableLayout"
+        app:layout_constraintEnd_toEndOf="@+id/tableLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
