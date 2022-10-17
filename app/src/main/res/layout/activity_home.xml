@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/drawerLayout"
-    android:forceDarkAllowed="false">
+    android:id="@+id/drawerLayout">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -44,22 +43,27 @@
                         android:layout_height="wrap_content"
                         android:text="Total Cuentas: 12000$"
                         android:textSize="15sp"/>
-
-                    <TextView
-                        android:id="@+id/textViewTotalCobros"
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Falta por pagar: 10000$"
-                        android:textSize="20sp"
-                        android:textAlignment="textEnd"/>
+                        android:orientation="vertical"
+                        android:layout_gravity="end">
+                        <TextView
+                            android:id="@+id/textViewTotalCobros"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Falta por pagar: 10000$"
+                            android:textSize="20sp"
+                            android:textAlignment="textStart"/>
 
-                    <TextView
-                        android:id="@+id/textViewTotalAbonos"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Falta por cobrar: 0$"
-                        android:textSize="20sp"
-                        android:textAlignment="textEnd"/>
+                        <TextView
+                            android:id="@+id/textViewTotalAbonos"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Falta por cobrar: 0$"
+                            android:textSize="20sp"
+                            android:textAlignment="textStart"/>
+                    </LinearLayout>
                 </LinearLayout>
 
                 <ScrollView
@@ -94,7 +98,7 @@
                                 android:id="@+id/listViewResumenCuentas"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"/>
+                                android:layout_marginTop="10dp" />
                         </LinearLayout>
 
                         <LinearLayout
