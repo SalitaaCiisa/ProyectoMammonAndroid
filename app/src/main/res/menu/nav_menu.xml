@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menuHome"
+        android:title="Inicio"
+        android:icon="@drawable/ic_home"
+        /><!--android:onClick="menuHome"-->
+
+    <item
+        android:id="@+id/menuCobros"
+        android:title="Cobros Mensuales"
+        android:icon="@drawable/ic_baseline_circle_24"
+        /><!--android:onClick="menuCobros"-->
+
+    <item
+        android:id="@+id/menuAbonos"
+        android:title="Abonos Mensuales"
+        android:icon="@drawable/ic_baseline_circle_24"
+        /><!--android:onClick="menuAbonos"-->
+
+    <item
+        android:id="@+id/menuCuentas"
+        android:title="Cuentas"
+        android:icon="@drawable/ic_baseline_circle_24"/>
+    <item
+        android:id="@+id/menuDesconectarse"
+        android:title="Desconectarse"
+        android:icon="@drawable/ic_baseline_circle_24" />
+</menu>
