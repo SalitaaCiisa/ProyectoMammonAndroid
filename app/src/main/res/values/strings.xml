@@ -3,4 +3,5 @@
     <string name="txtresultado"> resultado: </string>
     <string name="txtPasswordInput"> Contraseña </string>
     <string name="txtEmailInput"> Email </string>
+    <string name="txtUserInput"> Usuario </string>
 </resources>
