@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,6 +40,14 @@ public class crudCobros extends AppCompatActivity implements NavigationView.OnNa
         });
 
         navView.setNavigationItemSelectedListener(this);
+
+        Button botonAnadir = findViewById(R.id.buttonAnadir);
+        botonAnadir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), AddEditCobros.class));
+            }
+        });
     }
 
     @Override

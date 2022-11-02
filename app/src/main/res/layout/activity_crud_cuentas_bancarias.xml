@@ -61,13 +61,13 @@
 
                 </LinearLayout>
 
-                <ListView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/listViewResumenCuentas"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="#CCCCCC">
-                </ListView>
+                </androidx.recyclerview.widget.RecyclerView>
 
             </LinearLayout>
 

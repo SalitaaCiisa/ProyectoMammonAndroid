@@ -13,6 +13,30 @@
         android:theme="@style/Theme.ProyectoMammon"
         tools:targetApi="31">
         <activity
+            android:name=".AddCuentaBancaria"
+            android:exported="false"
+            android:screenOrientation="nosensor">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".AddEditAbonos"
+            android:exported="false"
+            android:screenOrientation="nosensor">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".AddEditCobros"
+            android:exported="false"
+            android:screenOrientation="nosensor">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".crudCobros"
             android:exported="false"
             android:screenOrientation="nosensor">
