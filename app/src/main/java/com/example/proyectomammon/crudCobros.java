@@ -1,10 +1,14 @@
 package com.example.proyectomammon;
 
+import static java.security.AccessController.getContext;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
@@ -29,6 +34,11 @@ public class crudCobros extends AppCompatActivity implements NavigationView.OnNa
         NavigationView navView = findViewById(R.id.navigationview);
         TextView txtToolBar = findViewById(R.id.tvToolbarText);
         ImageView menuIcon = findViewById(R.id.menuIcon);
+
+
+        RecyclerView RVcobros = findViewById(R.id.recyclerViewCobros);
+        LinearLayoutManager llManager = new LinearLayoutManager(getApplicationContext());
+        RVcobros.setLayoutManager(llManager);
 
         txtToolBar.setText("Cobros");
 
@@ -48,6 +58,9 @@ public class crudCobros extends AppCompatActivity implements NavigationView.OnNa
                 startActivity(new Intent(getApplicationContext(), AddEditCobros.class));
             }
         });
+
+
+
     }
 
     @Override

@@ -4,4 +4,10 @@
     <string name="txtPasswordInput"> Contraseña </string>
     <string name="txtEmailInput"> Email </string>
     <string name="txtUserInput"> Usuario </string>
+
+    <string-array name="arrSpinnerFrecuencia">
+        <item>Unico</item>
+        <item>Mensual</item>
+        <item>Semanal</item>
+    </string-array>
 </resources>
