@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,6 +32,10 @@ public class crudAbonos extends AppCompatActivity implements NavigationView.OnNa
         TextView txtToolBar = findViewById(R.id.tvToolbarText);
         ImageView menuIcon = findViewById(R.id.menuIcon);
 
+        RecyclerView RVabonos = findViewById(R.id.recyclerViewAbonos);
+        LinearLayoutManager llManager = new LinearLayoutManager(getApplicationContext());
+        RVabonos.setLayoutManager(llManager);
+
         txtToolBar.setText("Abonos");
 
         menuIcon.setOnClickListener(new View.OnClickListener(){
@@ -39,6 +46,17 @@ public class crudAbonos extends AppCompatActivity implements NavigationView.OnNa
         });
 
         navView.setNavigationItemSelectedListener(this);
+
+        //Boton de añadir abono
+        Button botonAnadir = findViewById(R.id.buttonAnadir);
+        botonAnadir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), AddEditAbonos.class);
+                intent.putExtra("activityAccion", "crear");
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -6,4 +6,146 @@
     android:layout_height="match_parent"
     tools:context=".AddCuentaBancaria">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/primaryColor"
+        android:orientation="horizontal"
+        android:layout_gravity="top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/flechaAtras"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="3dp"
+            android:src="@drawable/ic_flecha_retroceder"/>
+
+        <TextView
+            android:id="@+id/tvToolbarText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_marginEnd="33dp"
+            android:textAlignment="center"
+            android:text="Texto de la vista, usar @tvToolbarText"
+            android:textSize="18sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutpr"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="?actionBarSize"
+        android:background="@color/backgroundEEEEEE"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:text="Nombre cuenta: "
+                android:textSize="15sp"/>
+            <EditText
+                android:id="@+id/etNombreCuenta"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:layout_weight="6"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:text="Link Token: "
+                android:textSize="15sp"/>
+            <EditText
+                android:id="@+id/etLink_Token"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:layout_weight="6"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:text="Secret key: "
+                android:textSize="15sp"/>
+            <EditText
+                android:id="@+id/etApiSecretKey"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:layout_weight="6"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+            <Space
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"/>
+            <Button
+                android:id="@+id/buttonAccion"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:text="Vacio"
+                android:layout_weight="4"/>
+            <Space
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"/>
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="50dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Para añadir una cuenta bancaria primero debes seguir estos pasos:
+                    \n\n1. entrar a 'dashboard.fintoc.com' y crearte (o ingresar) una cuenta.
+                    \n\n2. En 'Crear Live Link' tienes que ingresar tu cuenta bancaria y anotar el Link Token que te entregan.
+                    \n\n3. En 'API Keys' tienes que anotar la Secret Key
+                    \n\n4. Por ultimo ingresar en los apartados correspondientes el Link Token y la Secret Key"
+                    />
+            </LinearLayout>
+    </ScrollView>
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

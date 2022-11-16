@@ -178,7 +178,7 @@
                 android:id="@+id/buttonAccion"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
-                android:text="Crear cobro"
+                android:text="Vacio"
                 android:layout_weight="4"/>
             <Space
                 android:layout_width="0px"

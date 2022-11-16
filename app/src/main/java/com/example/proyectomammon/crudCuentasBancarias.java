@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,6 +40,17 @@ public class crudCuentasBancarias extends AppCompatActivity implements Navigatio
         });
 
         navView.setNavigationItemSelectedListener(this);
+
+        //Boton de añadir cuenta
+        Button botonAnadir = findViewById(R.id.buttonAnadir);
+        botonAnadir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), AddCuentaBancaria.class);
+                intent.putExtra("activityAccion", "crear");
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

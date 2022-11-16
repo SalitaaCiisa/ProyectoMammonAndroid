@@ -1,5 +1,6 @@
 package com.example.proyectomammon;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -31,6 +32,8 @@ public class AddEditCobros extends AppCompatActivity {
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
+        Bundle intentTransfer = getIntent().getExtras();
+
         TextView txtToolBar = findViewById(R.id.tvToolbarText);
         ImageView backArrow = findViewById(R.id.flechaAtras);
 
@@ -48,22 +51,35 @@ public class AddEditCobros extends AppCompatActivity {
 
         final String[] respuestasParaPasarView = new String[6];
 
-        txtToolBar.setText("Crear cobro");
+        switch (intentTransfer.getString("activityAccion")){
+            case "crear":
+                txtToolBar.setText("Añadiendo cobro");
+                btnAccion.setText("Crear cobro");
+                break;
+            case "editar":
+                txtToolBar.setText("Editando cobro");
+                btnAccion.setText("Editar cobro");
+                break;
+            default:
+                txtToolBar.setText("Error al transferir nombre");
+                break;
+        }
 
+        //Flecha para volver a la vista anterior
         backArrow.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(), crudCobros.class));
             }
         });
-
+        //Dialogo para seleccionar fecha
         fechaCobro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showDatePickerDialog(fechaCobro);
             }
         });
-
+        //Seleccion Spinner, guardado de datos
         spinnerFrecuencia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -76,7 +92,7 @@ public class AddEditCobros extends AppCompatActivity {
 
             }
         });
-
+        //Boton para Crear
         btnAccion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,7 +121,8 @@ public class AddEditCobros extends AppCompatActivity {
         });
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
-
+    //Funcion para validar formulario
+    @NonNull
     private Boolean validate_form(){
         EditText nombreCobro, nombreCobrador, monto, fechaCobro, descripcion;
         nombreCobro = findViewById(R.id.etNombreCobro);

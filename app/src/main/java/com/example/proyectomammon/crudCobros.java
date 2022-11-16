@@ -35,7 +35,6 @@ public class crudCobros extends AppCompatActivity implements NavigationView.OnNa
         TextView txtToolBar = findViewById(R.id.tvToolbarText);
         ImageView menuIcon = findViewById(R.id.menuIcon);
 
-
         RecyclerView RVcobros = findViewById(R.id.recyclerViewCobros);
         LinearLayoutManager llManager = new LinearLayoutManager(getApplicationContext());
         RVcobros.setLayoutManager(llManager);
@@ -51,16 +50,16 @@ public class crudCobros extends AppCompatActivity implements NavigationView.OnNa
 
         navView.setNavigationItemSelectedListener(this);
 
+        //Boton de añadir cobro
         Button botonAnadir = findViewById(R.id.buttonAnadir);
         botonAnadir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), AddEditCobros.class));
+                Intent intent = new Intent(getApplicationContext(), AddEditCobros.class);
+                intent.putExtra("activityAccion", "crear");
+                startActivity(intent);
             }
         });
-
-
-
     }
 
     @Override
