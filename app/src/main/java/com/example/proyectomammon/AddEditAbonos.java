@@ -16,7 +16,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.proyectomammon.db.DbAbonos;
 import com.example.proyectomammon.dialog.DatePickerFragment;
 
 public class AddEditAbonos extends AppCompatActivity {
@@ -34,18 +36,20 @@ public class AddEditAbonos extends AppCompatActivity {
         ImageView backArrow = findViewById(R.id.flechaAtras);
 
         EditText nombreAbono, nombreAbonador, monto, fechaAbono, descripcion;
-        nombreAbono = findViewById(R.id.etNombreAbono);
-        nombreAbonador = findViewById(R.id.etNombreAbonador);
-        monto = findViewById(R.id.etMonto);
-        fechaAbono = findViewById(R.id.etFecha);
-        descripcion = findViewById(R.id.etDescripcion);
+            nombreAbono = findViewById(R.id.etNombreAbono);
+            nombreAbonador = findViewById(R.id.etNombreAbonador);
+            monto = findViewById(R.id.etMonto);
+            fechaAbono = findViewById(R.id.etFecha);
+            descripcion = findViewById(R.id.etDescripcion);
 
         Spinner spinnerFrecuencia;
         spinnerFrecuencia = findViewById(R.id.spinnerFrecuencia);
 
         Button btnAccion = findViewById(R.id.buttonAccion);
 
-        final String[] respuestasParaPasarView = new String[6];
+        DbAbonos dbAbonos = new DbAbonos(this);
+
+        final String[] frecuencia = new String[1];
 
         switch (intentTransfer.getString("activityAccion")){
             case "crear":
@@ -80,7 +84,7 @@ public class AddEditAbonos extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String item = adapterView.getItemAtPosition(i).toString();
-                respuestasParaPasarView[4] = item;
+                frecuencia[0] = item;
             }
 
             @Override
@@ -93,13 +97,16 @@ public class AddEditAbonos extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (validate_form()){
-                    respuestasParaPasarView[0] = String.valueOf(nombreAbono.getText());
-                    respuestasParaPasarView[1] = String.valueOf(nombreAbonador.getText());
-                    respuestasParaPasarView[2] = String.valueOf(monto.getText());
-                    respuestasParaPasarView[3] = String.valueOf(fechaAbono.getText());
-                    respuestasParaPasarView[5] = String.valueOf(descripcion.getText());
+
+                    long respuesta = dbAbonos.create(nombreAbono.getText().toString(),nombreAbonador.getText().toString(),monto.getText().toString(),fechaAbono.getText().toString(),descripcion.getText().toString(),frecuencia[0]);
+
+                    if (respuesta > 0) {
+                        Toast.makeText(AddEditAbonos.this,"Registro de id "+respuesta+" creado con exito",Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(AddEditAbonos.this,"Error al crear registro, id: "+respuesta,Toast.LENGTH_LONG).show();
+                    }
+
                     Intent i = new Intent(getApplicationContext(), crudAbonos.class);
-                    i.putExtra("RespuestasCreate", respuestasParaPasarView);
                     startActivity(i);
                 }
             }

@@ -9,16 +9,38 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.proyectomammon.adapters.ListaAbonoAdapter;
+import com.example.proyectomammon.db.DbAbonos;
+import com.example.proyectomammon.resources.Abonos;
+import com.example.proyectomammon.db.DbHelper;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class crudAbonos extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+    //Vista
+    NavigationView navView;
+    TextView txtToolBar;
+    ImageView menuIcon;
+    Button botonAnadir;
+    RecyclerView RVabonos;
+    //Clases
+    LinearLayoutManager llManager;
+    ArrayList<Abonos> abonosList;
+    DbHelper dbhelper;
+    DbAbonos dbAbonos;
+    SQLiteDatabase db;
+    ListaAbonoAdapter listaAbonoAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,18 +48,29 @@ public class crudAbonos extends AppCompatActivity implements NavigationView.OnNa
         setContentView(R.layout.activity_crud_abonos);
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
+        /* ------------------------------------------------------------------------- */
         final DrawerLayout drLayout = findViewById(R.id.drawerLayout);
-        NavigationView navView = findViewById(R.id.navigationview);
-        TextView txtToolBar = findViewById(R.id.tvToolbarText);
-        ImageView menuIcon = findViewById(R.id.menuIcon);
+        navView = findViewById(R.id.navigationview);
+        txtToolBar = findViewById(R.id.tvToolbarText);
+        menuIcon = findViewById(R.id.menuIcon);
+        botonAnadir = findViewById(R.id.buttonAnadir);
+        RVabonos = findViewById(R.id.recyclerViewAbonos);
 
-        RecyclerView RVabonos = findViewById(R.id.recyclerViewAbonos);
-        LinearLayoutManager llManager = new LinearLayoutManager(getApplicationContext());
-        RVabonos.setLayoutManager(llManager);
+        llManager = new LinearLayoutManager(this);
+        abonosList = new ArrayList<>();
+        dbhelper = new DbHelper(this);
+        dbAbonos = new DbAbonos(this);
+        listaAbonoAdapter = new ListaAbonoAdapter(dbAbonos.read());
+        /* -------------------------------------------------------------------------- */
 
+        //Titulo de la vista
         txtToolBar.setText("Abonos");
 
+        //RecyclerView Cosas
+        RVabonos.setLayoutManager(llManager);
+        RVabonos.setAdapter(listaAbonoAdapter);
+
+        //Boton de menu
         menuIcon.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -45,10 +78,10 @@ public class crudAbonos extends AppCompatActivity implements NavigationView.OnNa
             }
         });
 
+        //Accion segun seleccion en la barra de navegacion
         navView.setNavigationItemSelectedListener(this);
 
         //Boton de añadir abono
-        Button botonAnadir = findViewById(R.id.buttonAnadir);
         botonAnadir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,6 +90,7 @@ public class crudAbonos extends AppCompatActivity implements NavigationView.OnNa
                 startActivity(intent);
             }
         });
+
     }
 
     @Override

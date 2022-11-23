@@ -12,6 +12,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.proyectomammon.db.DbCuentas;
+import com.example.proyectomammon.resources.Cuentas;
 
 public class AddCuentaBancaria extends AppCompatActivity {
 
@@ -34,7 +38,8 @@ public class AddCuentaBancaria extends AppCompatActivity {
 
         Button btnAccion = findViewById(R.id.buttonAccion);
 
-        final String[] respuestasParaPasarView = new String[3];
+        Cuentas cuenta = new Cuentas();
+        DbCuentas dbCuentas = new DbCuentas(this);
 
         txtToolBar.setText("Añadiendo cuenta bancaria");
         btnAccion.setText("Crear cuenta");
@@ -43,20 +48,27 @@ public class AddCuentaBancaria extends AppCompatActivity {
         backArrow.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), crudCobros.class));
+                startActivity(new Intent(getApplicationContext(), crudAbonos.class));
             }
         });
-
         //Boton para Crear
         btnAccion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (validate_form()){
-                    respuestasParaPasarView[0] = String.valueOf(nombreCuenta.getText());
-                    respuestasParaPasarView[1] = String.valueOf(link_token.getText());
-                    respuestasParaPasarView[2] = String.valueOf(API_Secret_Key.getText());
+                    cuenta.setNombreCuenta(String.valueOf(nombreCuenta.getText()));
+                    cuenta.setLink_token(String.valueOf(link_token.getText()));
+                    cuenta.setApi_key(String.valueOf(API_Secret_Key.getText()));
+                    cuenta.setId_cuenta("ID aleatorio");
+                    long respuesta = dbCuentas.create(cuenta);
+
+                    if (respuesta > 0) {
+                        Toast.makeText(AddCuentaBancaria.this,"Registro de id "+respuesta+" creado con exito",Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(AddCuentaBancaria.this,"Error al crear registro, id: "+respuesta,Toast.LENGTH_LONG).show();
+                    }
+
                     Intent i = new Intent(getApplicationContext(), crudCuentasBancarias.class);
-                    i.putExtra("RespuestasCreate", respuestasParaPasarView);
                     startActivity(i);
                 }
             }
