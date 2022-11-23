@@ -1,5 +1,6 @@
 package com.example.proyectomammon.adapters;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.proyectomammon.R;
 import com.example.proyectomammon.interfaces.CuentasAPI;
 import com.example.proyectomammon.resources.Cuentas;
+import com.example.proyectomammon.resources.CuentasApi;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -24,9 +31,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ListaCuentaAdapter extends RecyclerView.Adapter<ListaCuentaAdapter.CuentaViewHolder> {
 
     private ArrayList<Cuentas> cuentasList;
+    private ArrayList<CuentasApi> cuentasApisList;
 
-    public ListaCuentaAdapter(ArrayList<Cuentas> cuentasList) {
+    public ListaCuentaAdapter(ArrayList<Cuentas> cuentasList, ArrayList<CuentasApi> cuentasApisList) {
         this.cuentasList = cuentasList;
+        this.cuentasApisList = cuentasApisList;
     }
 
     @NonNull
@@ -36,51 +45,19 @@ public class ListaCuentaAdapter extends RecyclerView.Adapter<ListaCuentaAdapter.
         return new CuentaViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull CuentaViewHolder holder, int position) {
 
-        final String[] respuesta1 = new String[1];
-        final String[] respuesta2 = new String[1];
-        final String[] respuesta3 = new String[1];
-        respuesta1[0] = "Vacio";
-        respuesta2[0] = "Vacio";
-        respuesta3[0] = "Vacio";
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.fintoc.com")
-                .addConverterFactory(GsonConverterFactory.create()).build();
-
-        CuentasAPI cuentasAPI = retrofit.create(CuentasAPI.class);
-        Call<String> call = cuentasAPI.find(cuentasList.get(position).getLink_token(),cuentasList.get(position).getApi_key());
-        call.enqueue(new Callback<String>(){
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                try {
-                    if (response.isSuccessful()) {
-                        respuesta1[0] = response.body();
-                        respuesta2[0] = response.body();
-                        respuesta3[0] = response.body();
-                    }
-                }catch (Exception ex){
-                    respuesta1[0] = ex.toString();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
-            }
-        });
-
-
-
         holder.TVnombreCuenta.setText(cuentasList.get(position).getNombreCuenta());
-        holder.TVnumeroCuenta.setText(respuesta1[0]);
-        holder.TVbalance.setText(respuesta2[0]);
-        holder.TVmovimiento.setText(respuesta3[0]);
         holder.TVlink_token.setText(cuentasList.get(position).getLink_token());
         holder.TVapi_key.setText(cuentasList.get(position).getApi_key());
-        holder.TVid_cuenta.setText(cuentasList.get(position).getId_cuenta());
+        /*
+        holder.TVnumeroCuenta.setText(cuentasApisList.get(0).getNumeroCuenta());
+        holder.TVbalance.setText(Integer.toString(cuentasApisList.get(0).getBalance()));
+        holder.TVmovimiento.setText(cuentasApisList.get(0).getFechaHoraUltimoMovimiento());
+        holder.TVid_cuenta.setText(cuentasApisList.get(0).getNumeroCuenta());
+         */
     }
 
     @Override

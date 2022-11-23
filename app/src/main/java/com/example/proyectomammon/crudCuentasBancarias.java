@@ -16,17 +16,29 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.proyectomammon.adapters.ListaAbonoAdapter;
 import com.example.proyectomammon.adapters.ListaCuentaAdapter;
 import com.example.proyectomammon.db.DbAbonos;
 import com.example.proyectomammon.db.DbCuentas;
 import com.example.proyectomammon.db.DbHelper;
+import com.example.proyectomammon.interfaces.CuentasAPI;
 import com.example.proyectomammon.resources.Abonos;
 import com.example.proyectomammon.resources.Cuentas;
+import com.example.proyectomammon.resources.CuentasApi;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class crudCuentasBancarias extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     //Vista
@@ -57,11 +69,12 @@ public class crudCuentasBancarias extends AppCompatActivity implements Navigatio
         RVcuentas = findViewById(R.id.RVResumenCuentas);
 
         llManager = new LinearLayoutManager(this);
-        cuentasList = new ArrayList<>();
         dbhelper = new DbHelper(this);
         dbCuentas = new DbCuentas(this);
-        listaCuentaAdapter = new ListaCuentaAdapter(dbCuentas.read());
         /* ------------------------------------------------------------------------- */
+
+        //Adapter llenado
+        llenarAdapter();
 
         //Titulo de la vista
         txtToolBar.setText("Cuentas Bancarias");
@@ -90,6 +103,46 @@ public class crudCuentasBancarias extends AppCompatActivity implements Navigatio
                 startActivity(intent);
             }
         });
+    }
+
+    private void llenarAdapter() {
+        ArrayList<CuentasApi> cuentasApisList = new ArrayList<>();
+        cuentasList = (ArrayList<Cuentas>) dbCuentas.read().clone();
+
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.fintoc.com")
+                .addConverterFactory(GsonConverterFactory.create()).build();
+
+        CuentasAPI cuentasAPI = retrofit.create(CuentasAPI.class);
+        int i = 1;
+        for (Cuentas cuenta : cuentasList) {
+            Toast.makeText(crudCuentasBancarias.this,"Si se llego al forEach vuelta "+i,Toast.LENGTH_LONG).show();
+            Call<JsonArray> call = cuentasAPI.find(cuenta.getLink_token(),cuenta.getApi_key());
+            call.enqueue(new Callback<JsonArray>(){
+                @Override
+                public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                    try {
+                        if (response.isSuccessful()) {
+                            JsonArray jsonArray = response.body();
+                            JsonElement jsonElement = jsonArray.get(0);
+
+                            cuentasApisList.add(new CuentasApi(jsonElement));
+                        }
+                    }catch (Exception ex){
+                        Toast.makeText(crudCuentasBancarias.this,"Error al 222: "+ex,Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<JsonArray> call, Throwable t) {
+                    Toast.makeText(crudCuentasBancarias.this,"Error al 333: "+t,Toast.LENGTH_LONG).show();
+                }
+            });
+            i++;
+        }
+
+        listaCuentaAdapter = new ListaCuentaAdapter(cuentasList,cuentasApisList);
     }
 
     @Override
