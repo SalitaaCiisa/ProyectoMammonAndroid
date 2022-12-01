@@ -1,39 +1,27 @@
 package com.example.proyectomammon.adapters;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyectomammon.R;
-import com.example.proyectomammon.interfaces.CuentasAPI;
 import com.example.proyectomammon.resources.Cuentas;
-import com.example.proyectomammon.resources.CuentasApi;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
-import org.json.JSONObject;
+import com.example.proyectomammon.resources.cuenta_api.CuentasResourceApus;
 
 import java.util.ArrayList;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ListaCuentaAdapter extends RecyclerView.Adapter<ListaCuentaAdapter.CuentaViewHolder> {
 
     private ArrayList<Cuentas> cuentasList;
-    private ArrayList<CuentasApi> cuentasApisList;
+    private ArrayList<CuentasResourceApus> cuentasApisList;
 
-    public ListaCuentaAdapter(ArrayList<Cuentas> cuentasList, ArrayList<CuentasApi> cuentasApisList) {
+    public ListaCuentaAdapter(ArrayList<Cuentas> cuentasList, ArrayList<CuentasResourceApus> cuentasApisList) {
         this.cuentasList = cuentasList;
         this.cuentasApisList = cuentasApisList;
     }
@@ -48,16 +36,26 @@ public class ListaCuentaAdapter extends RecyclerView.Adapter<ListaCuentaAdapter.
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull CuentaViewHolder holder, int position) {
-
+        try {
+        //DB
         holder.TVnombreCuenta.setText(cuentasList.get(position).getNombreCuenta());
         holder.TVlink_token.setText(cuentasList.get(position).getLink_token());
         holder.TVapi_key.setText(cuentasList.get(position).getApi_key());
-        /*
-        holder.TVnumeroCuenta.setText(cuentasApisList.get(0).getNumeroCuenta());
-        holder.TVbalance.setText(Integer.toString(cuentasApisList.get(0).getBalance()));
-        holder.TVmovimiento.setText(cuentasApisList.get(0).getFechaHoraUltimoMovimiento());
-        holder.TVid_cuenta.setText(cuentasApisList.get(0).getNumeroCuenta());
-         */
+        //Api
+        holder.TVnumeroCuenta.setText(cuentasApisList.get(position).getNumber());
+        holder.TVmovimiento.setText(cuentasApisList.get(position).getRefreshedAt());
+        holder.TVid_cuenta.setText(cuentasApisList.get(position).getId());
+
+        }catch (Exception ex){
+            Log.e("Error in 444.all holder: "+position, ex.toString());
+        }
+
+        try {
+            //Api balance
+            holder.TVbalance.setText(Integer.toString(cuentasApisList.get(position).getBalance().getAvailable()));
+        }catch (Exception ex){
+            Log.e("Error in 444.balance holder: "+position, ex.toString());
+        }
     }
 
     @Override

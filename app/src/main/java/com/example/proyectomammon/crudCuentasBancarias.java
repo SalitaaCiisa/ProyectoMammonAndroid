@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -18,21 +18,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.proyectomammon.adapters.ListaAbonoAdapter;
 import com.example.proyectomammon.adapters.ListaCuentaAdapter;
-import com.example.proyectomammon.db.DbAbonos;
 import com.example.proyectomammon.db.DbCuentas;
 import com.example.proyectomammon.db.DbHelper;
 import com.example.proyectomammon.interfaces.CuentasAPI;
-import com.example.proyectomammon.resources.Abonos;
 import com.example.proyectomammon.resources.Cuentas;
-import com.example.proyectomammon.resources.CuentasApi;
+import com.example.proyectomammon.resources.cuenta_api.CuentasResourceApus;
 import com.google.android.material.navigation.NavigationView;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,6 +45,7 @@ public class crudCuentasBancarias extends AppCompatActivity implements Navigatio
     //Clases
     LinearLayoutManager llManager;
     ArrayList<Cuentas> cuentasList;
+    ArrayList<CuentasResourceApus> cuentasApisList;
     DbHelper dbhelper;
     DbCuentas dbCuentas;
     ListaCuentaAdapter listaCuentaAdapter;
@@ -106,42 +102,50 @@ public class crudCuentasBancarias extends AppCompatActivity implements Navigatio
     }
 
     private void llenarAdapter() {
-        ArrayList<CuentasApi> cuentasApisList = new ArrayList<>();
+        cuentasApisList = new ArrayList<>();
         cuentasList = (ArrayList<Cuentas>) dbCuentas.read().clone();
-
+        Call<List<CuentasResourceApus>> call;
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.fintoc.com")
-                .addConverterFactory(GsonConverterFactory.create()).build();
+                .baseUrl("https://api.fintoc.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
         CuentasAPI cuentasAPI = retrofit.create(CuentasAPI.class);
-        int i = 1;
+        int i = 0;
         for (Cuentas cuenta : cuentasList) {
             Toast.makeText(crudCuentasBancarias.this,"Si se llego al forEach vuelta "+i,Toast.LENGTH_LONG).show();
-            Call<JsonArray> call = cuentasAPI.find(cuenta.getLink_token(),cuenta.getApi_key());
-            call.enqueue(new Callback<JsonArray>(){
+            call = cuentasAPI.find(cuenta.getLink_token(),cuenta.getApi_key());
+            int finalI = i;
+            call.enqueue(new Callback<List<CuentasResourceApus>>(){
                 @Override
-                public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                public void onResponse(Call<List<CuentasResourceApus>> call, Response<List<CuentasResourceApus>> response) {
                     try {
-                        if (response.isSuccessful()) {
-                            JsonArray jsonArray = response.body();
-                            JsonElement jsonElement = jsonArray.get(0);
+                        if ((response.isSuccessful()) && (!response.body().isEmpty())) {
+                            cuentasApisList.add(new CuentasResourceApus(response.body().get(0)));
+                            //Toast.makeText(crudCuentasBancarias.this,"Cuenta id: "+cuentasApisList.get(finalI).getId(),Toast.LENGTH_LONG).show();
 
-                            cuentasApisList.add(new CuentasApi(jsonElement));
+                        }else {
+                            Toast.makeText(crudCuentasBancarias.this, "Ronda 2 fallo o esta vacio", Toast.LENGTH_LONG).show();
+                            cuentasApisList.add(new CuentasResourceApus());
                         }
                     }catch (Exception ex){
-                        Toast.makeText(crudCuentasBancarias.this,"Error al 222: "+ex,Toast.LENGTH_LONG).show();
+                        Toast.makeText(crudCuentasBancarias.this,"Error al 222 in round "+ finalI,Toast.LENGTH_LONG).show();
+                        Log.e("Error in 222 in round "+ finalI, ex.toString());
+                        cuentasApisList.add(new CuentasResourceApus());
                     }
                 }
 
                 @Override
-                public void onFailure(Call<JsonArray> call, Throwable t) {
+                public void onFailure(Call<List<CuentasResourceApus>> call, Throwable t) {
                     Toast.makeText(crudCuentasBancarias.this,"Error al 333: "+t,Toast.LENGTH_LONG).show();
+                    Log.e("Error in 333", t.toString());
+                    cuentasApisList.add(new CuentasResourceApus());
                 }
             });
             i++;
         }
-
+        //Toast.makeText(crudCuentasBancarias.this,"Cuenta id: "+cuentasApisList.get(0).getId(),Toast.LENGTH_LONG).show();
         listaCuentaAdapter = new ListaCuentaAdapter(cuentasList,cuentasApisList);
     }
 
