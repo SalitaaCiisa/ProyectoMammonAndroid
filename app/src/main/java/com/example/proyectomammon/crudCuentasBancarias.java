@@ -44,7 +44,7 @@ public class crudCuentasBancarias extends AppCompatActivity implements Navigatio
     RecyclerView RVcuentas;
     //Clases
     LinearLayoutManager llManager;
-    ArrayList<Cuentas> cuentasList;
+    ArrayList<Cuentas> cuentasDbList;
     ArrayList<CuentasResourceApus> cuentasApisList;
     DbHelper dbhelper;
     DbCuentas dbCuentas;
@@ -70,7 +70,7 @@ public class crudCuentasBancarias extends AppCompatActivity implements Navigatio
         /* ------------------------------------------------------------------------- */
 
         //Adapter llenado
-        llenarAdapter();
+        listaCuentaAdapter = new ListaCuentaAdapter(crudCuentasBancarias.this, dbCuentas.read());
 
         //Titulo de la vista
         txtToolBar.setText("Cuentas Bancarias");
@@ -101,9 +101,11 @@ public class crudCuentasBancarias extends AppCompatActivity implements Navigatio
         });
     }
 
+    //Obsoleto, solucionado llamando la API directamente desde el adapter.
+    /*
     private void llenarAdapter() {
         cuentasApisList = new ArrayList<>();
-        cuentasList = (ArrayList<Cuentas>) dbCuentas.read().clone();
+        cuentasDbList = (ArrayList<Cuentas>) dbCuentas.read().clone();
         Call<List<CuentasResourceApus>> call;
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -112,18 +114,21 @@ public class crudCuentasBancarias extends AppCompatActivity implements Navigatio
                 .build();
 
         CuentasAPI cuentasAPI = retrofit.create(CuentasAPI.class);
+
         int i = 0;
-        for (Cuentas cuenta : cuentasList) {
+        for (Cuentas cuenta : cuentasDbList) {
             Toast.makeText(crudCuentasBancarias.this,"Si se llego al forEach vuelta "+i,Toast.LENGTH_LONG).show();
-            call = cuentasAPI.find(cuenta.getLink_token(),cuenta.getApi_key());
+
             int finalI = i;
+
+            call = cuentasAPI.find(cuenta.getLink_token(),cuenta.getApi_key());
             call.enqueue(new Callback<List<CuentasResourceApus>>(){
                 @Override
                 public void onResponse(Call<List<CuentasResourceApus>> call, Response<List<CuentasResourceApus>> response) {
                     try {
                         if ((response.isSuccessful()) && (!response.body().isEmpty())) {
                             cuentasApisList.add(new CuentasResourceApus(response.body().get(0)));
-                            //Toast.makeText(crudCuentasBancarias.this,"Cuenta id: "+cuentasApisList.get(finalI).getId(),Toast.LENGTH_LONG).show();
+                            Toast.makeText(crudCuentasBancarias.this,"Interface Cuenta id: "+cuentasApisList.get(finalI).getId(),Toast.LENGTH_LONG).show();
 
                         }else {
                             Toast.makeText(crudCuentasBancarias.this, "Ronda 2 fallo o esta vacio", Toast.LENGTH_LONG).show();
@@ -144,11 +149,23 @@ public class crudCuentasBancarias extends AppCompatActivity implements Navigatio
                 }
             });
             i++;
+            try {
+                Toast.makeText(crudCuentasBancarias.this,"Foreach Cuenta id: "+cuentasApisList.get(finalI).getId(),Toast.LENGTH_LONG).show();
+            }catch (Exception ex){
+                Toast.makeText(crudCuentasBancarias.this,"Error in 555.Foreach",Toast.LENGTH_LONG).show();
+                Log.e("Error in 555 in Foreach", ex.toString());
+            }
         }
-        //Toast.makeText(crudCuentasBancarias.this,"Cuenta id: "+cuentasApisList.get(0).getId(),Toast.LENGTH_LONG).show();
-        listaCuentaAdapter = new ListaCuentaAdapter(cuentasList,cuentasApisList);
-    }
+        try {
+            Toast.makeText(crudCuentasBancarias.this,"Fuera Cuenta id: "+cuentasApisList.get(0).getId(),Toast.LENGTH_LONG).show();
 
+        }catch (Exception ex){
+            Toast.makeText(crudCuentasBancarias.this,"Error in 555.Fuera",Toast.LENGTH_LONG).show();
+            Log.e("Error in 555 Fuera", ex.toString());
+        }
+        //listaCuentaAdapter = new ListaCuentaAdapter(crudCuentasBancarias.this, cuentasDbList,cuentasApisList);
+    }
+    */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();

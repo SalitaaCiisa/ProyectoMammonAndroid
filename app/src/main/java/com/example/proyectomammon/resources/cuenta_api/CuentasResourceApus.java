@@ -1,6 +1,8 @@
 
 package com.example.proyectomammon.resources.cuenta_api;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -195,4 +197,9 @@ public class CuentasResourceApus {
         this.object = object;
     }
 
+    @NonNull
+    @Override
+    public CuentasResourceApus clone() throws CloneNotSupportedException {
+        return new CuentasResourceApus(this);
+    }
 }
