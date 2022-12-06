@@ -40,6 +40,7 @@ public class CuentasConsume {
     public ArrayList<CuentasResourceApus> getAllCuentas(){
 
         call = cuentasAPI.find(cuentaDB.getLink_token(), cuentaDB.getApi_key());
+
         call.enqueue(new Callback<List<CuentasResourceApus>>() {
             @Override
             public void onResponse(Call<List<CuentasResourceApus>> call, Response<List<CuentasResourceApus>> response) {
@@ -55,7 +56,7 @@ public class CuentasConsume {
                             cuentasResourceApusArrayList.add(new CuentasResourceApus(cuentasResourceApusList.get(0)));
                         }
                     }else {
-                        Toast.makeText(context, "Cuenta "+ cuentaDB.getNombreCuenta()+" fallo o esta vacia", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Cuenta "+ cuentaDB.getNombreCuenta()+" fallo o esta vacia, Error 666", Toast.LENGTH_LONG).show();
                         Log.e("Error 666 in cuenta "+ cuentaDB.getNombreCuenta(),response.errorBody().string());
                     }
                 }catch (Exception ex){

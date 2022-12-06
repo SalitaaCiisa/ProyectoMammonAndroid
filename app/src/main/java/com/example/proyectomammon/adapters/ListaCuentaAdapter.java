@@ -49,9 +49,10 @@ public class ListaCuentaAdapter extends RecyclerView.Adapter<ListaCuentaAdapter.
     @Override
     public void onBindViewHolder(@NonNull CuentaViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
+        /*
         CuentasConsume cuentasConsume = new CuentasConsume(context,cuentasDbList.get(position));
         ArrayList<CuentasResourceApus> cuentasResourceApusArrayList = cuentasConsume.getAllCuentas();
-        cuentasConsume.getAllCuentas();
+        CuentasResourceApus cuentasApis = cuentasResourceApusArrayList.get(0);
 
         //DB
         holder.TVnombreCuenta.setText(cuentasDbList.get(position).getNombreCuenta());
@@ -59,15 +60,14 @@ public class ListaCuentaAdapter extends RecyclerView.Adapter<ListaCuentaAdapter.
         holder.TVapi_key.setText(cuentasDbList.get(position).getApi_key());
 
         //API
-        /*
         holder.TVnumeroCuenta.setText(cuentasApis.getNumber());
         holder.TVmovimiento.setText(cuentasApis.getRefreshedAt());
         holder.TVid_cuenta.setText(cuentasApis.getId());
         holder.TVbalance.setText(Integer.toString(cuentasApis.getBalance().getAvailable()));
-
          */
 
-        /*Call<List<CuentasResourceApus>> call;
+
+        Call<List<CuentasResourceApus>> call;
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.fintoc.com/")
@@ -88,7 +88,7 @@ public class ListaCuentaAdapter extends RecyclerView.Adapter<ListaCuentaAdapter.
                 try {
                     if ((response.isSuccessful()) && (!response.body().isEmpty())) {
                         CuentasResourceApus cuentasApis = response.body().get(0);
-                        Toast.makeText(context,"Interface Cuenta id: "+cuentasApis.getId(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(context,"Exito en cuenta "+cuentasDbList.get(position).getNombreCuenta(),Toast.LENGTH_LONG).show();
 
                         holder.TVnumeroCuenta.setText(cuentasApis.getNumber());
                         holder.TVmovimiento.setText(cuentasApis.getRefreshedAt());
@@ -96,21 +96,21 @@ public class ListaCuentaAdapter extends RecyclerView.Adapter<ListaCuentaAdapter.
                         holder.TVbalance.setText(Integer.toString(cuentasApis.getBalance().getAvailable()));
 
                     }else {
-                        Toast.makeText(context, "Cuenta "+cuentasDbList.get(position).getNombreCuenta()+" fallo o esta vacia", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Cuenta "+ cuentasDbList.get(position).getNombreCuenta()+" fallo o esta vacia, Error 666", Toast.LENGTH_LONG).show();
+                        Log.e("Error 666 in cuenta "+ cuentasDbList.get(position).getNombreCuenta(),response.errorBody().string());
                     }
                 }catch (Exception ex){
-                    Toast.makeText(context,"Error al 222 in round "+ position,Toast.LENGTH_LONG).show();
-                    Log.e("Error in 222 in round "+ position, ex.toString());
+                    Toast.makeText(context,"Error al 222 in cuenta "+ cuentasDbList.get(position).getNombreCuenta(),Toast.LENGTH_LONG).show();
+                    Log.e("Error al 222 in cuenta "+ cuentasDbList.get(position).getNombreCuenta(), ex.toString());
                 }
             }
 
             @Override
             public void onFailure(Call<List<CuentasResourceApus>> call, Throwable t) {
-                Toast.makeText(context,"Error al 333: "+t,Toast.LENGTH_LONG).show();
-                Log.e("Error in 333", t.toString());
+                Toast.makeText(context,"Error al 333 en cuenta " + cuentasDbList.get(position).getNombreCuenta(),Toast.LENGTH_LONG).show();
+                Log.e("Error al 333 on cuenta" + cuentasDbList.get(position).getNombreCuenta(), t.toString());
             }
         });
-         */
 
         /*
         try {
