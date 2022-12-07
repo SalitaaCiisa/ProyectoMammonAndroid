@@ -1,45 +1,45 @@
 package com.example.proyectomammon.resources;
 
-public class Abonos {
-    private String nombreAbono, abonador, fechaAbono, descripcion, frecuencia;
+public class Cobros {
+    private String nombreCobro, cobrador, fechaCobro, descripcion, frecuencia;
     private int monto, id;
 
     //Constructores----------------------------------------------------
-    public Abonos() {
+    public Cobros() {
     }
 
-    public Abonos(String nombreAbono, String abonador, String fechaAbono, String descripcion, String frecuencia, int monto) {
-        this.nombreAbono = nombreAbono;
-        this.abonador = abonador;
-        this.fechaAbono = fechaAbono;
+    public Cobros(String nombreCobro, String cobrador, String fechaCobro, String descripcion, String frecuencia, int monto) {
+        this.nombreCobro = nombreCobro;
+        this.cobrador = cobrador;
+        this.fechaCobro = fechaCobro;
         this.descripcion = descripcion;
         this.frecuencia = frecuencia;
         this.monto = monto;
     }
 
     //Getter and Setters ------------------------------------------
-    public String getNombreAbono() {
-        return nombreAbono;
+    public String getNombreCobro() {
+        return nombreCobro;
     }
 
-    public void setNombreAbono(String nombreAbono) {
-        this.nombreAbono = nombreAbono;
+    public void setNombreCobro(String nombreCobro) {
+        this.nombreCobro = nombreCobro;
     }
 
-    public String getAbonador() {
-        return abonador;
+    public String getCobrador() {
+        return cobrador;
     }
 
-    public void setAbonador(String abonador) {
-        this.abonador = abonador;
+    public void setCobrador(String cobrador) {
+        this.cobrador = cobrador;
     }
 
-    public String getFechaAbono() {
-        return fechaAbono;
+    public String getFechaCobro() {
+        return fechaCobro;
     }
 
-    public void setFechaAbono(String fechaAbono) {
-        this.fechaAbono = fechaAbono;
+    public void setFechaCobro(String fechaCobro) {
+        this.fechaCobro = fechaCobro;
     }
 
     public String getDescripcion() {
@@ -77,10 +77,10 @@ public class Abonos {
     //ToString----------------------------------------------------------------------
     @Override
     public String toString() {
-        return "Abonos{" +
-                "nombreAbono='" + nombreAbono + '\'' +
-                ", abonador='" + abonador + '\'' +
-                ", fechaAbono='" + fechaAbono + '\'' +
+        return "Cobros{" +
+                "nombreCobro='" + nombreCobro + '\'' +
+                ", cobrador='" + cobrador + '\'' +
+                ", fechaCobro='" + fechaCobro + '\'' +
                 ", descripcion='" + descripcion + '\'' +
                 ", frecuencia='" + frecuencia + '\'' +
                 ", monto=" + monto +

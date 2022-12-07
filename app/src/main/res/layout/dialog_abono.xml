@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:id="@+id/abono_lista_item">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -73,11 +72,54 @@
             android:layout_weight="7"
             android:textColor="@color/black"/>
     </LinearLayout>
-    <View
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@android:color/darker_gray"/>
-    <Space
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="20dp">
+        <TextView
+            android:id="@+id/TVdescripcion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Descripcion:"/>
+        <TextView
+            android:id="@+id/TVlistaDescripcion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:inputType="none"
+            android:lines="7"
+            android:background="#DDDDDD"/>
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="15dp"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Space
+            android:layout_width="0px"
+            android:layout_height="1px"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/btnEditar_cuenta"
+            android:layout_width="0px"
+            android:layout_height="45dp"
+            android:layout_weight="4"
+            android:text="Editar"/>
+        <Space
+            android:layout_width="0px"
+            android:layout_height="1px"
+            android:layout_weight="4"/>
+        <Button
+            android:id="@+id/btnBorrar_cuenta"
+            android:layout_width="0px"
+            android:layout_height="45dp"
+            android:layout_weight="4"
+            android:text="Eliminar"/>
+        <Space
+            android:layout_width="0px"
+            android:layout_height="1px"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
 </LinearLayout>

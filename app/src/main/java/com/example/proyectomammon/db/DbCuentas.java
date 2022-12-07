@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -36,7 +37,7 @@ public class DbCuentas extends DbHelper{
 
             idResponse = db.insert(TABLE_CUENTAS, null, values);
         }catch (Exception ex){
-            ex.toString();
+            Log.e("Error create cuenta: "+cuenta.getNombreCuenta()+", id:"+cuenta.getId(), ex.toString());
         }
 
         dbhelper.close();
@@ -70,12 +71,47 @@ public class DbCuentas extends DbHelper{
             }
 
         }catch (SQLiteException ex){
-            ex.toString();
+            Log.e("Error read cuenta: "+cuenta.getNombreCuenta(), ex.toString());
         }
 
         cursor.close();
         dbhelper.close();
 
         return cuentasList;
+    }
+
+    public long update(Cuentas cuenta){
+        long idResponse = -1;
+        DbHelper dbhelper = new DbHelper(context);
+        SQLiteDatabase db = dbhelper.getWritableDatabase();
+
+        try {
+            ContentValues values = new ContentValues();
+            values.put("nombreCuenta", cuenta.getNombreCuenta());
+            values.put("link_token", cuenta.getLink_token());
+            values.put("api_key", cuenta.getApi_key());
+            values.put("id_cuenta", cuenta.getId_cuenta());
+
+            idResponse = db.update(TABLE_CUENTAS, values,"id = '"+cuenta.getId()+"'",null);
+        }catch (Exception ex){
+            Log.e("Error update cuenta: "+cuenta.getNombreCuenta()+", id:"+cuenta.getId(), ex.toString());
+        }
+
+        dbhelper.close();
+        return idResponse;
+    }
+
+    public long delete(Cuentas cuenta){
+        long idResponse = -1;
+        DbHelper dbhelper = new DbHelper(context);
+        SQLiteDatabase db = dbhelper.getWritableDatabase();
+        try {
+            idResponse = db.delete(TABLE_CUENTAS,"id = '"+cuenta.getId()+"'",null);
+        }catch (Exception ex){
+            Log.e("Error delete cuenta: "+cuenta.getNombreCuenta()+", id:"+cuenta.getId(), ex.toString());
+        }
+
+        dbhelper.close();
+        return idResponse;
     }
 }

@@ -1,11 +1,16 @@
 package com.example.proyectomammon.adapters;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.proyectomammon.R;
 import com.example.proyectomammon.apiconsume.CuentasConsume;
 import com.example.proyectomammon.crudCuentasBancarias;
+import com.example.proyectomammon.db.DbCuentas;
 import com.example.proyectomammon.interfaces.CuentasAPI;
 import com.example.proyectomammon.resources.Cuentas;
 import com.example.proyectomammon.resources.cuenta_api.CuentasResourceApus;
@@ -65,6 +71,27 @@ public class ListaCuentaAdapter extends RecyclerView.Adapter<ListaCuentaAdapter.
         holder.TVid_cuenta.setText(cuentasApis.getId());
         holder.TVbalance.setText(Integer.toString(cuentasApis.getBalance().getAvailable()));
          */
+        TextView DGTVlink_token, DGTVapi_key, DGTVid_cuenta, DGTVnumeroCuenta, DGTVnombreCuenta, DGTVbalance, DGTVmovimiento;
+        Button DGBtnBorrar_Cuenta;
+
+        DbCuentas dbCuentas = new DbCuentas(context);
+
+        final Dialog dialog = new Dialog(context);
+        //Desactivamos el titulo
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //Hacemos que el usuario sea capaz de cerrar el dialogo cuando toque fuera del mismo
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.dialog_cuenta);
+        //inicializamos los items del dialogo
+        DGTVnombreCuenta  = dialog.findViewById(R.id.TVlistaNombreCuenta);
+        DGTVnumeroCuenta = dialog.findViewById(R.id.TVlistaNumeroCuenta);
+        DGTVbalance = dialog.findViewById(R.id.TVlistaBalance);
+        DGTVmovimiento = dialog.findViewById(R.id.TVlistaMovimiento);
+        DGTVlink_token = dialog.findViewById(R.id.TVlistaLink_token);
+        DGTVapi_key = dialog.findViewById(R.id.TVlistaApi_key);
+        DGTVid_cuenta = dialog.findViewById(R.id.TVlistaId_cuenta);
+            //Buttons
+        DGBtnBorrar_Cuenta = dialog.findViewById(R.id.btnBorrar_cuenta);
 
 
         Call<List<CuentasResourceApus>> call;
@@ -75,10 +102,12 @@ public class ListaCuentaAdapter extends RecyclerView.Adapter<ListaCuentaAdapter.
                 .build();
         CuentasAPI cuentasAPI = retrofit.create(CuentasAPI.class);
 
-        //DB
+        //DB recycler view
         holder.TVnombreCuenta.setText(cuentasDbList.get(position).getNombreCuenta());
-        holder.TVlink_token.setText(cuentasDbList.get(position).getLink_token());
-        holder.TVapi_key.setText(cuentasDbList.get(position).getApi_key());
+        //DB dialog
+        DGTVnombreCuenta.setText(cuentasDbList.get(position).getNombreCuenta());
+        DGTVlink_token.setText(cuentasDbList.get(position).getLink_token());
+        DGTVapi_key.setText(cuentasDbList.get(position).getApi_key());
 
         //API
         call = cuentasAPI.find(cuentasDbList.get(position).getLink_token(),cuentasDbList.get(position).getApi_key());
@@ -89,11 +118,14 @@ public class ListaCuentaAdapter extends RecyclerView.Adapter<ListaCuentaAdapter.
                     if ((response.isSuccessful()) && (!response.body().isEmpty())) {
                         CuentasResourceApus cuentasApis = response.body().get(0);
                         Toast.makeText(context,"Exito en cuenta "+cuentasDbList.get(position).getNombreCuenta(),Toast.LENGTH_LONG).show();
-
-                        holder.TVnumeroCuenta.setText(cuentasApis.getNumber());
+                        //RecyclerView
                         holder.TVmovimiento.setText(cuentasApis.getRefreshedAt());
-                        holder.TVid_cuenta.setText(cuentasApis.getId());
                         holder.TVbalance.setText(Integer.toString(cuentasApis.getBalance().getAvailable()));
+                        //Dialog
+                        DGTVmovimiento.setText(cuentasApis.getRefreshedAt());
+                        DGTVbalance.setText(Integer.toString(cuentasApis.getBalance().getAvailable()));
+                        DGTVnumeroCuenta.setText(cuentasApis.getNumber());
+                        DGTVid_cuenta.setText(cuentasApis.getId());
 
                     }else {
                         Toast.makeText(context, "Cuenta "+ cuentasDbList.get(position).getNombreCuenta()+" fallo o esta vacia, Error 666", Toast.LENGTH_LONG).show();
@@ -110,6 +142,21 @@ public class ListaCuentaAdapter extends RecyclerView.Adapter<ListaCuentaAdapter.
                 Toast.makeText(context,"Error al 333 en cuenta " + cuentasDbList.get(position).getNombreCuenta(),Toast.LENGTH_LONG).show();
                 Log.e("Error al 333 on cuenta" + cuentasDbList.get(position).getNombreCuenta(), t.toString());
             }
+        });
+
+        holder.cuenta_lista_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.show();
+            }
+        });
+        //Le ponemos OnClick al boton de borrar del dialogo
+        DGBtnBorrar_Cuenta.setOnClickListener(view -> {
+            dbCuentas.delete(cuentasDbList.get(position));
+            dialog.dismiss();
+
+            Intent i = new Intent(context,crudCuentasBancarias.class);
+            context.startActivity(i);
         });
 
         /*
@@ -144,17 +191,15 @@ public class ListaCuentaAdapter extends RecyclerView.Adapter<ListaCuentaAdapter.
     }
 
     public class CuentaViewHolder extends RecyclerView.ViewHolder {
-        TextView TVnombreCuenta, TVnumeroCuenta, TVbalance, TVmovimiento, TVlink_token, TVapi_key, TVid_cuenta;
+        TextView TVnombreCuenta, TVbalance, TVmovimiento;
+        LinearLayout cuenta_lista_item;
 
         public CuentaViewHolder(@NonNull View itemView) {
             super(itemView);
             TVnombreCuenta = itemView.findViewById(R.id.TVlistaNombreCuenta);
-            TVnumeroCuenta = itemView.findViewById(R.id.TVlistaNumeroCuenta);
             TVbalance = itemView.findViewById(R.id.TVlistaBalance);
             TVmovimiento = itemView.findViewById(R.id.TVlistaMovimiento);
-            TVlink_token = itemView.findViewById(R.id.TVlistaLink_token);
-            TVapi_key = itemView.findViewById(R.id.TVlistaApi_key);
-            TVid_cuenta = itemView.findViewById(R.id.TVlistaId_cuenta);
+            cuenta_lista_item = itemView.findViewById(R.id.cuenta_lista_item);
         }
     }
 }

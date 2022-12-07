@@ -17,8 +17,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.proyectomammon.db.DbCobros;
 import com.example.proyectomammon.dialog.DatePickerFragment;
+import com.example.proyectomammon.resources.Cobros;
 
 import java.util.ArrayList;
 import java.util.regex.Pattern;
@@ -49,7 +52,9 @@ public class AddEditCobros extends AppCompatActivity {
 
         Button btnAccion = findViewById(R.id.buttonAccion);
 
-        final String[] respuestasParaPasarView = new String[6];
+        DbCobros dbCobros = new DbCobros(this);
+
+        final String[] frecuencia = new String[6];
 
         switch (intentTransfer.getString("activityAccion")){
             case "crear":
@@ -84,7 +89,7 @@ public class AddEditCobros extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String item = adapterView.getItemAtPosition(i).toString();
-                respuestasParaPasarView[4] = item;
+                frecuencia[0] = item;
             }
 
             @Override
@@ -97,13 +102,16 @@ public class AddEditCobros extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (validate_form()){
-                    respuestasParaPasarView[0] = String.valueOf(nombreCobro.getText());
-                    respuestasParaPasarView[1] = String.valueOf(nombreCobrador.getText());
-                    respuestasParaPasarView[2] = String.valueOf(monto.getText());
-                    respuestasParaPasarView[3] = String.valueOf(fechaCobro.getText());
-                    respuestasParaPasarView[5] = String.valueOf(descripcion.getText());
+                    Cobros cobro = new Cobros(nombreCobro.getText().toString(),nombreCobrador.getText().toString(),fechaCobro.getText().toString(),descripcion.getText().toString(),frecuencia[0],Integer.parseInt(monto.getText().toString()));
+                    long respuesta = dbCobros.create(cobro);
+
+                    if (respuesta > 0) {
+                        Toast.makeText(AddEditCobros.this,"Registro de id "+respuesta+" creado con exito",Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(AddEditCobros.this,"Error al crear registro, id: "+respuesta,Toast.LENGTH_LONG).show();
+                    }
+
                     Intent i = new Intent(getApplicationContext(), crudCobros.class);
-                    i.putExtra("RespuestasCreate", respuestasParaPasarView);
                     startActivity(i);
                 }
             }

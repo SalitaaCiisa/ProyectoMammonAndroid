@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.proyectomammon.db.DbAbonos;
 import com.example.proyectomammon.dialog.DatePickerFragment;
+import com.example.proyectomammon.resources.Abonos;
 
 public class AddEditAbonos extends AppCompatActivity {
 
@@ -97,8 +98,8 @@ public class AddEditAbonos extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (validate_form()){
-
-                    long respuesta = dbAbonos.create(nombreAbono.getText().toString(),nombreAbonador.getText().toString(),monto.getText().toString(),fechaAbono.getText().toString(),descripcion.getText().toString(),frecuencia[0]);
+                    Abonos abono = new Abonos(nombreAbono.getText().toString(),nombreAbonador.getText().toString(),fechaAbono.getText().toString(),descripcion.getText().toString(),frecuencia[0],Integer.parseInt(monto.getText().toString()));
+                    long respuesta = dbAbonos.create(abono);
 
                     if (respuesta > 0) {
                         Toast.makeText(AddEditAbonos.this,"Registro de id "+respuesta+" creado con exito",Toast.LENGTH_LONG).show();

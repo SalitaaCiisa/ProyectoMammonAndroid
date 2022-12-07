@@ -5,10 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
 import com.example.proyectomammon.resources.Abonos;
+import com.example.proyectomammon.resources.Cobros;
 
 import java.util.ArrayList;
 
@@ -21,23 +23,23 @@ public class DbAbonos extends DbHelper {
         this.context = context;
     }
 
-    public long create(String nombreAbono, String abonador, String monto, String fechaAbono, String descripcion, String frecuencia){
+    public long create(Abonos abono){
         long idResponse = -1;
         DbHelper dbhelper = new DbHelper(context);
         SQLiteDatabase db = dbhelper.getWritableDatabase();
 
         try {
             ContentValues values = new ContentValues();
-            values.put("nombreAbono", nombreAbono);
-            values.put("abonador", abonador);
-            values.put("monto", monto);
-            values.put("fechaAbono", fechaAbono);
-            values.put("descripcion", descripcion);
-            values.put("frecuencia", frecuencia);
+            values.put("nombreAbono", abono.getNombreAbono());
+            values.put("abonador", abono.getAbonador());
+            values.put("monto", abono.getMonto());
+            values.put("fechaAbono", abono.getFechaAbono());
+            values.put("descripcion", abono.getDescripcion());
+            values.put("frecuencia", abono.getFrecuencia());
 
             idResponse = db.insert(TABLE_ABONOS, null, values);
         }catch (Exception ex){
-            ex.toString();
+            Log.e("Error create abono: "+abono.getNombreAbono(), ex.toString());
         }
 
         dbhelper.close();
@@ -46,6 +48,7 @@ public class DbAbonos extends DbHelper {
     }
 
     public ArrayList<Abonos> read(){
+
         DbHelper dbhelper = new DbHelper(context);
         SQLiteDatabase db = dbhelper.getWritableDatabase();
 
@@ -72,12 +75,49 @@ public class DbAbonos extends DbHelper {
             }
 
         }catch (SQLiteException ex){
-            ex.toString();
+            Log.e("Error read abono: "+abono.getNombreAbono()+", id:"+abono.getId(), ex.toString());
         }
 
         cursor.close();
         dbhelper.close();
 
         return abonosList;
+    }
+
+    public long update(Abonos abono){
+        long idResponse = -1;
+        DbHelper dbhelper = new DbHelper(context);
+        SQLiteDatabase db = dbhelper.getWritableDatabase();
+
+        try {
+            ContentValues values = new ContentValues();
+            values.put("nombreAbono", abono.getNombreAbono());
+            values.put("abonador", abono.getAbonador());
+            values.put("monto", abono.getMonto());
+            values.put("fechaAbono", abono.getFechaAbono());
+            values.put("descripcion", abono.getDescripcion());
+            values.put("frecuencia", abono.getFrecuencia());
+
+            idResponse = db.update(TABLE_ABONOS, values,"id = '"+abono.getId()+"'",null);
+        }catch (Exception ex){
+                Log.e("Error update abono: "+abono.getNombreAbono()+", id:"+abono.getId(), ex.toString());
+        }
+
+        dbhelper.close();
+        return idResponse;
+    }
+
+    public long delete(Abonos abono){
+        long idResponse = -1;
+        DbHelper dbhelper = new DbHelper(context);
+        SQLiteDatabase db = dbhelper.getWritableDatabase();
+        try {
+            idResponse = db.delete(TABLE_ABONOS,"id = '"+abono.getId()+"'",null);
+        }catch (Exception ex){
+            Log.e("Error delete abono: "+abono.getNombreAbono()+", id:"+abono.getId(), ex.toString());
+        }
+
+        dbhelper.close();
+        return idResponse;
     }
 }

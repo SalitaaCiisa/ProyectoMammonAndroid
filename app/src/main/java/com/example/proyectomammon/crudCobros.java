@@ -19,28 +19,47 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.proyectomammon.adapters.ListaCobroAdapter;
+import com.example.proyectomammon.db.DbCobros;
 import com.google.android.material.navigation.NavigationView;
 
 public class crudCobros extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
-
+    //Vista
+    NavigationView navView;
+    TextView txtToolBar;
+    ImageView menuIcon;
+    RecyclerView RVcobros;
+    //Clases
+    LinearLayoutManager llManager;
+    DbCobros dbCobros;
+    ListaCobroAdapter listaCobroAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crud_cobros);
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
+        /*-------------------------------------------------------------------------------------------*/
         final DrawerLayout drLayout = findViewById(R.id.drawerLayout);
-        NavigationView navView = findViewById(R.id.navigationview);
-        TextView txtToolBar = findViewById(R.id.tvToolbarText);
-        ImageView menuIcon = findViewById(R.id.menuIcon);
-
-        RecyclerView RVcobros = findViewById(R.id.recyclerViewCobros);
-        LinearLayoutManager llManager = new LinearLayoutManager(getApplicationContext());
+        navView = findViewById(R.id.navigationview);
+        txtToolBar = findViewById(R.id.tvToolbarText);
+        menuIcon = findViewById(R.id.menuIcon);
+        RVcobros = findViewById(R.id.recyclerViewCobros);
         RVcobros.setLayoutManager(llManager);
 
+        llManager = new LinearLayoutManager(getApplicationContext());
+        dbCobros = new DbCobros(this);
+        listaCobroAdapter = new ListaCobroAdapter(dbCobros.read(),this);
+        /*-------------------------------------------------------------------------------------------*/
+
+        //Titulo de vista
         txtToolBar.setText("Cobros");
 
+        //RecyclerView cosas
+        RVcobros.setLayoutManager(llManager);
+        RVcobros.setAdapter(listaCobroAdapter);
+
+        //Botton de menu
         menuIcon.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -48,6 +67,7 @@ public class crudCobros extends AppCompatActivity implements NavigationView.OnNa
             }
         });
 
+        //Acciones de la barra de navegacion
         navView.setNavigationItemSelectedListener(this);
 
         //Boton de añadir cobro

@@ -37,9 +37,7 @@ public class crudAbonos extends AppCompatActivity implements NavigationView.OnNa
     //Clases
     LinearLayoutManager llManager;
     ArrayList<Abonos> abonosList;
-    DbHelper dbhelper;
     DbAbonos dbAbonos;
-    SQLiteDatabase db;
     ListaAbonoAdapter listaAbonoAdapter;
 
     @Override
@@ -57,10 +55,8 @@ public class crudAbonos extends AppCompatActivity implements NavigationView.OnNa
         RVabonos = findViewById(R.id.recyclerViewAbonos);
 
         llManager = new LinearLayoutManager(this);
-        abonosList = new ArrayList<>();
-        dbhelper = new DbHelper(this);
         dbAbonos = new DbAbonos(this);
-        listaAbonoAdapter = new ListaAbonoAdapter(dbAbonos.read());
+        listaAbonoAdapter = new ListaAbonoAdapter(dbAbonos.read(),this);
         /* -------------------------------------------------------------------------- */
 
         //Titulo de la vista
